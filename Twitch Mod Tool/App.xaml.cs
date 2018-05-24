@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using Ninject;
+using Twitch_Mod_Tool.Models;
+using Twitch_Mod_Tool.Services;
+using Twitch_Mod_Tool.Utilities;
+using Twitch_Mod_Tool.ViewModels;
 
 namespace Twitch_Mod_Tool
 {
@@ -13,5 +12,26 @@ namespace Twitch_Mod_Tool
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var kernel = new StandardKernel();
+            kernel.Bind<TwitchSettings>().ToSelf().InSingletonScope();
+            kernel.Bind<SettingsLoader>().ToSelf().InSingletonScope();
+
+            // load settings before starting 
+            kernel.Get<SettingsLoader>().Load();
+
+            kernel.Bind<TwitchService>().ToSelf().InSingletonScope();
+            kernel.Bind<OverrustlelogsService>().ToSelf().InSingletonScope();
+
+            kernel.Bind<MainWindowViewModel>().ToSelf().InSingletonScope();
+            kernel.Bind<ChatViewModel>().ToSelf().InSingletonScope();
+            kernel.Bind<CommandsViewModel>().ToSelf().InSingletonScope();
+
+            kernel.Bind<MainWindow>().ToSelf().InSingletonScope();
+
+
+            kernel.Get<MainWindow>().Show();
+        }
     }
 }
