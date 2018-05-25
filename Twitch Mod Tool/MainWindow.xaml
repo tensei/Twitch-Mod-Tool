@@ -10,13 +10,18 @@
         mc:Ignorable="d"
         Title="Twitch Mod Tool" 
         Height="850" Width="1200"
-        MinHeight="450" MinWidth="800">
+        MinHeight="450" MinWidth="800" WindowTitleBrush="#212121" TitleForeground="White" BorderBrush="Black"
+        NonActiveBorderBrush="Black"
+        GlowBrush="Black" NonActiveGlowBrush="Black" TitlebarHeight="35" TitleCharacterCasing="Normal"
+        NonActiveWindowTitleBrush="#212121" WindowTransitionsEnabled="True"
+        TextElement.FontSize="14" SaveWindowPosition="True"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <materialDesign:DialogHost>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="2"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" MinWidth="400"/>
             </Grid.ColumnDefinitions>
             <views:CommandsView Grid.Column="0" DataContext="{Binding CommandsViewModel}"/>
             <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Width="2"/>

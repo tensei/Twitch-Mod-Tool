@@ -42,6 +42,9 @@ namespace Twitch_Mod_Tool.Utilities
             _twitchSettings.Channels = ts.Channels;
             _twitchSettings.BadWords = ts.BadWords;
             _twitchSettings.BadWordsRegex = ts.BadWordsRegex;
+            _twitchSettings.BadWordFilter = ts.BadWordFilter;
+            _twitchSettings.BadWordRegexFilter = ts.BadWordRegexFilter;
+            _twitchSettings.BadWordPhoneticFilter = ts.BadWordPhoneticFilter;
 
             _twitchSettings.PropertyChanged += _twitchSettings_PropertyChanged;
         }

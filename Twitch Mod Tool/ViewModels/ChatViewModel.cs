@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,24 +20,50 @@ namespace Twitch_Mod_Tool.ViewModels
     public class ChatViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<TwitchMessage> Messages { get; set; }
+        public int ReceivedMessages { get; set; }
         public bool LimitMessages { get; set; } = true;
         private readonly TwitchService _twitchService;
-        private readonly TwitchSettings _twitchSettings;
+        public TwitchSettings TwitchSettings { get; }
+        private readonly IPhoneticMatch _phonetic;
         private readonly int _messageLimit = 1000;
+#if DEBUG
         private bool _dryRun = true;
+#else
+        private bool _dryRun = false;
+#endif
+        
 
-
-        public ChatViewModel(TwitchService twitchService, TwitchSettings twitchSettings)
+        public ChatViewModel(TwitchService twitchService, TwitchSettings twitchSettings, IPhoneticMatch phonetic)
         {
             Messages = new ObservableCollection<TwitchMessage>();
             _twitchService = twitchService;
-            _twitchSettings = twitchSettings;
+            TwitchSettings = twitchSettings;
+            _phonetic = phonetic;
             _twitchService.Client.OnMessageReceived += Client_OnMessageReceived;
         }
 
         private async void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            if (!CheckForBadWord(e.ChatMessage) && !CheckForBadWordRegex(e.ChatMessage))
+            ReceivedMessages++;
+            var hasBadWord = false;
+            var tm = new TwitchMessage(e.ChatMessage);
+            if (TwitchSettings.BadWordFilter && CheckForBadWord(tm))
+            {
+                tm.Filters.Add("Word");
+                hasBadWord = true;
+            }
+            if (TwitchSettings.BadWordRegexFilter && CheckForBadWordRegex(tm))
+            {
+                tm.Filters.Add("Regex");
+                hasBadWord = true;
+            }
+            if (TwitchSettings.BadWordPhoneticFilter && CheckForBadWordPhonetic(tm))
+            {
+                tm.Filters.Add("Phonetic");
+                hasBadWord = true;
+            }
+
+            if (!hasBadWord)
             {
                 return;
             }
@@ -46,15 +73,15 @@ namespace Twitch_Mod_Tool.ViewModels
                  {
                      Messages.RemoveAt(0);
                  }
-                 Messages.Add(new TwitchMessage(e.ChatMessage));
+                 Messages.Add(tm);
              }));
         }
 
-        private bool CheckForBadWord(ChatMessage chatMessage)
+        private bool CheckForBadWord(TwitchMessage twitchMessage)
         {
-            foreach (var word in _twitchSettings.BadWords)
+            foreach (var word in TwitchSettings.BadWords)
             {
-                if (!chatMessage.Message.Contains(word) && !chatMessage.Username.Contains(word))
+                if (!twitchMessage.Content.Contains(word) && !twitchMessage.Author.Contains(word))
                 {
                     continue;
                 }
@@ -63,15 +90,43 @@ namespace Twitch_Mod_Tool.ViewModels
             return false;
         }
 
-        private bool CheckForBadWordRegex(ChatMessage chatMessage)
+        private bool CheckForBadWordRegex(TwitchMessage twitchMessage)
         {
-            foreach (var word in _twitchSettings.BadWordsRegex)
+            var words = twitchMessage.Content.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var word in words)
             {
-                if (!Regex.IsMatch(chatMessage.Message, word, RegexOptions.IgnoreCase))
+                foreach (var badword in TwitchSettings.BadWordsRegex)
                 {
-                    continue;
+                    if (!Regex.IsMatch(word, badword, RegexOptions.IgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    twitchMessage.CoughtWords.Add(word);
+                    return true;
                 }
-                return true;
+            }
+            return false;
+        }
+        private bool CheckForBadWordPhonetic(TwitchMessage twitchMessage)
+        {
+            var words = twitchMessage.Content.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var word in TwitchSettings.BadWords)
+            {
+                var badPhonetic = _phonetic.CreateToken(word);
+                foreach (var s in words)
+                {
+                    if (s.Length < 3)
+                    {
+                        continue;
+                    }
+                    var messageWordPhonetic = _phonetic.CreateToken(s);
+                    if (messageWordPhonetic == badPhonetic)
+                    {
+                        twitchMessage.CoughtWords.Add(s);
+                        return true;
+                    }
+                }
             }
             return false;
         }

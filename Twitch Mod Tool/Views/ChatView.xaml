@@ -15,18 +15,31 @@
         </Grid.RowDefinitions>
         <materialDesign:ColorZone Mode="Dark" Padding="8,4" materialDesign:ShadowAssist.ShadowDepth="Depth2">
             <Grid>
-                <WrapPanel Orientation="Horizontal" >
-                    <Button Content="Badwords"
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding ReceivedMessages, Mode=OneWay}"
+                               ToolTip="Received Messages"
+                               VerticalAlignment="Center"/>
+                    <Button Content="Badwords" Margin="10,0"
                             Style="{DynamicResource MaterialDesignFlatButton}"/>
-                    <Button Content="Channels" Margin="10,0"
+                    <Button Content="Channels"
                             Style="{DynamicResource MaterialDesignFlatButton}"/>
-                    <Button Content="Clear list" Command="{Binding ClearCommand}"
+                    <Button Content="Clear list" Margin="10,0"
+                            Command="{Binding ClearCommand}"
                             Style="{DynamicResource MaterialDesignFlatButton}"/>
-                </WrapPanel>
+                    <TextBlock VerticalAlignment="Center" Opacity="0.6" FontSize="14">Filters</TextBlock>
+                    <materialDesign:PopupBox Content="Filters" StaysOpen="True" Margin="0,0,10,0"
+                                             VerticalAlignment="Center">
+                        <StackPanel Margin="8,4">
+                            <CheckBox IsChecked="{Binding TwitchSettings.BadWordFilter, Mode=TwoWay}">Badword</CheckBox>
+                            <CheckBox IsChecked="{Binding TwitchSettings.BadWordRegexFilter, Mode=TwoWay}">Badword regex</CheckBox>
+                            <CheckBox IsChecked="{Binding TwitchSettings.BadWordPhoneticFilter, Mode=TwoWay}">Phonetic</CheckBox>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </StackPanel>
             </Grid>
         </materialDesign:ColorZone>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" ScrollChanged="ScrollViewer_ScrollChanged">
-            <ItemsControl ItemsSource="{Binding Messages}">
+            <ItemsControl ItemsSource="{Binding Messages}" Margin="0 0 0 3">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <models:TwitchMessageView/>

@@ -54,10 +54,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IPhoneticMatch.cs" />
     <Compile Include="Models\TwitchMessage.cs" />
     <Compile Include="Models\TwitchSettings.cs" />
     <Compile Include="Services\OverrustlelogsService.cs" />
     <Compile Include="Services\TwitchService.cs" />
+    <Compile Include="Utilities\Metaphone.cs" />
     <Compile Include="Utilities\SettingsLoader.cs" />
     <Compile Include="ViewModels\ActionCommand.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />

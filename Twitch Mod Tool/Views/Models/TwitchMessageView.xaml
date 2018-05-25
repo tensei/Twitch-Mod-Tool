@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="Twitch_Mod_Tool.Views.Models.TwitchMessageView"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Views="clr-namespace:Twitch_Mod_Tool.Views" x:Class="Twitch_Mod_Tool.Views.Models.TwitchMessageView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:ColorZone Padding="10" Margin="3 3 3 0" Mode="Dark" materialDesign:ShadowAssist.ShadowDepth="Depth2">
@@ -16,8 +17,9 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock 
@@ -35,8 +37,18 @@
                     />
                 </StackPanel>
                 <TextBlock
+                    Grid.Column="1" 
+                    Text="{Binding CoughtBy, Mode=OneWay}"
+                    Opacity="0.6"
+                    Margin="10,0" 
+                    FontSize="10" 
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
+                />
+                <TextBlock
                     Margin="10 0 0 0"
-                    Grid.Column="1"
+                    Grid.Column="2"
                     Text="{Binding Channel, Mode=OneTime}" 
                     FontSize="12" 
                     FontWeight="Bold" 
@@ -55,26 +67,33 @@
                 TextWrapping="Wrap" 
             />
             <Separator Grid.Row="2" />
-            <WrapPanel Grid.Row="3" Orientation="Horizontal">
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="10min"
-                        Command="{Binding TenMinTimeoutCommand}"
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Orientation="Horizontal">
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="10min"
+                        Command="{Binding DataContext.TenMinTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
                         CommandParameter="{Binding}"/>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="1h"
-                        Command="{Binding OneHourTimeoutCommand}"
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="1h"
+                        Command="{Binding  DataContext.OneHourTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
                         CommandParameter="{Binding}"/>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="24h"
-                        Command="{Binding OneDayTimeoutCommand}"
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="24h"
+                        Command="{Binding  DataContext.OneDayTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
                         CommandParameter="{Binding}"/>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Perma"
-                        Command="{Binding PermaCommand}"
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Perma"
+                        Command="{Binding  DataContext.PermaCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
                         CommandParameter="{Binding}"/>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Unban"
-                        Command="{Binding UnbanCommand}"
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Unban"
+                        Command="{Binding  DataContext.UnbanCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
                         CommandParameter="{Binding}"/>
-                <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Logs"
-                        Command="{Binding LogsCommand}"
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Logs"
+                        Command="{Binding  DataContext.LogsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
                         CommandParameter="{Binding}"/>
-            </WrapPanel>
+                </WrapPanel>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding CoughtWordsText}" Opacity="0.6" FontSize="12"/>
+            </Grid>
         </Grid>
     </materialDesign:ColorZone>
 </UserControl>

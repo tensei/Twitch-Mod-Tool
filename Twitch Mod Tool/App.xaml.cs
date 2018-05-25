@@ -17,6 +17,7 @@ namespace Twitch_Mod_Tool
             var kernel = new StandardKernel();
             kernel.Bind<TwitchSettings>().ToSelf().InSingletonScope();
             kernel.Bind<SettingsLoader>().ToSelf().InSingletonScope();
+            kernel.Bind<IPhoneticMatch>().To<Metaphone>();
 
             // load settings before starting 
             kernel.Get<SettingsLoader>().Load();
