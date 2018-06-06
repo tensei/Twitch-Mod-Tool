@@ -19,13 +19,12 @@
     <materialDesign:DialogHost>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="300" MinWidth="200"/>
                 <ColumnDefinition Width="*" MinWidth="400"/>
             </Grid.ColumnDefinitions>
-            <views:CommandsView Grid.Column="0" DataContext="{Binding CommandsViewModel}"/>
-            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Width="2"/>
-            <views:ChatView Grid.Column="2" DataContext="{Binding ChatViewModel}"/>
+            <views:CommandsView Grid.Column="0" DataContext="{Binding CommandsViewModel}" HorizontalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="0" ResizeDirection="Columns" ShowsPreview="True" Width="2"/>
+            <views:ChatView Grid.Column="1" DataContext="{Binding ChatViewModel}"/>
         </Grid>
     </materialDesign:DialogHost>
 </mah:MetroWindow>

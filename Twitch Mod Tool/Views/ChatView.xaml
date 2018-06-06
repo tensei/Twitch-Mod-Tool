@@ -19,7 +19,7 @@
                     <TextBlock Text="{Binding ReceivedMessages, Mode=OneWay}"
                                ToolTip="Received Messages"
                                VerticalAlignment="Center"/>
-                    <Button Content="Badwords" Margin="10,0"
+                    <Button Content="Bad words" Margin="10,0"
                             Style="{DynamicResource MaterialDesignFlatButton}"/>
                     <Button Content="Channels"
                             Style="{DynamicResource MaterialDesignFlatButton}"/>
@@ -42,7 +42,8 @@
             <ItemsControl ItemsSource="{Binding Messages}" Margin="0 0 0 3">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <models:TwitchMessageView/>
+                        <models:TwitchMessageView 
+                            Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ChatView}}}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

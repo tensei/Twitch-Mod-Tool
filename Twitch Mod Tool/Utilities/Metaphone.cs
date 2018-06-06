@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Twitch_Mod_Tool.Interfaces;
 
 namespace Twitch_Mod_Tool.Utilities
 {

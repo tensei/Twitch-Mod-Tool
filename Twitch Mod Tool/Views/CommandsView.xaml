@@ -4,9 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Twitch_Mod_Tool.Views"
-             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:commandsViews="clr-namespace:Twitch_Mod_Tool.Views.CommandsViews"
+             mc:Ignorable="d" Margin="8,4"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0 0 0 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Text="{Binding WordToWhitelist}"
+                     VerticalAlignment="Center"
+                     materialDesign:HintAssist.Hint="Whitelist word"
+                     materialDesign:TextFieldAssist.TextBoxViewMargin="0 0 55 0"/>
+            <Button HorizontalAlignment="Right"
+                    Grid.Row="0" VerticalAlignment="Center"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding WhitelistWordCommand}">
+                <materialDesign:PackIcon Kind="Plus"/>
+            </Button>
+        </Grid>
+        <commandsViews:CustomCommandsView Grid.Row="1" />
     </Grid>
 </UserControl>

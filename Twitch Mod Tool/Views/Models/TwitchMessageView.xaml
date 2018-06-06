@@ -4,9 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:Views="clr-namespace:Twitch_Mod_Tool.Views" x:Class="Twitch_Mod_Tool.Views.Models.TwitchMessageView"
+             xmlns:views="clr-namespace:Twitch_Mod_Tool.Views" 
+             xmlns:local="clr-namespace:Twitch_Mod_Tool.Views.Models" 
+             x:Class="Twitch_Mod_Tool.Views.Models.TwitchMessageView"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" >
+    <UserControl.ContextMenu>
+        <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+            <MenuItem Header="Whitelist" 
+                        Command="{Binding Tag.WhitelistCommand}"
+                        CommandParameter="{Binding DataContext}"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <materialDesign:ColorZone Padding="10" Margin="3 3 3 0" Mode="Dark" materialDesign:ShadowAssist.ShadowDepth="Depth2">
         <Grid>
             <Grid.RowDefinitions>
@@ -74,25 +83,25 @@
                 </Grid.ColumnDefinitions>
                 <WrapPanel Orientation="Horizontal">
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="10min"
-                        Command="{Binding DataContext.TenMinTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
+                        Command="{Binding DataContext.TenMinTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ChatView}}}"
                         CommandParameter="{Binding}"/>
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="1h"
-                        Command="{Binding  DataContext.OneHourTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
+                        Command="{Binding DataContext.OneHourTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ChatView}}}"
                         CommandParameter="{Binding}"/>
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="24h"
-                        Command="{Binding  DataContext.OneDayTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
+                        Command="{Binding DataContext.OneDayTimeoutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ChatView}}}"
                         CommandParameter="{Binding}"/>
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Perma"
-                        Command="{Binding  DataContext.PermaCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
+                        Command="{Binding DataContext.PermaCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ChatView}}}"
                         CommandParameter="{Binding}"/>
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Unban"
-                        Command="{Binding  DataContext.UnbanCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
+                        Command="{Binding DataContext.UnbanCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ChatView}}}"
                         CommandParameter="{Binding}"/>
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Content="Logs"
-                        Command="{Binding  DataContext.LogsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ChatView}}}"
+                        Command="{Binding DataContext.LogsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ChatView}}}"
                         CommandParameter="{Binding}"/>
                 </WrapPanel>
-                    <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding CoughtWordsText}" Opacity="0.6" FontSize="12"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding CoughtWordsText}" Opacity="0.6" FontSize="12"/>
             </Grid>
         </Grid>
     </materialDesign:ColorZone>
