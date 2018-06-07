@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Twitch_Mod_Tool.Models
 {
-    public class TwitchSettings: INotifyPropertyChanged
+    public class TwitchSettings : INotifyPropertyChanged
     {
         public string Username { get; set; } = "";
         public string Oauth { get; set; } = "";

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Twitch_Mod_Tool.Models;
 
 namespace Twitch_Mod_Tool
@@ -20,21 +15,26 @@ namespace Twitch_Mod_Tool
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlite("Data Source=tool.db");
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BannedUser>(e => {
+            modelBuilder.Entity<BannedUser>(e =>
+            {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.TwitchId).IsRequired();
             });
-            modelBuilder.Entity<WhitelistWord>(e => {
+            modelBuilder.Entity<WhitelistWord>(e =>
+            {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Word).IsRequired();
             });
-            modelBuilder.Entity<WhitelistUser>(e => {
+            modelBuilder.Entity<WhitelistUser>(e =>
+            {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.TwitchId).IsRequired();
             });
-            modelBuilder.Entity<CustomCommand>(e => {
+            modelBuilder.Entity<CustomCommand>(e =>
+            {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Channel).IsRequired();
                 e.Property(x => x.Message).IsRequired();

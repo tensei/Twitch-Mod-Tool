@@ -1,16 +1,16 @@
 ﻿using System.Windows;
+using Microsoft.EntityFrameworkCore;
 using Ninject;
 using Twitch_Mod_Tool.Interfaces;
 using Twitch_Mod_Tool.Models;
 using Twitch_Mod_Tool.Services;
 using Twitch_Mod_Tool.Utilities;
 using Twitch_Mod_Tool.ViewModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace Twitch_Mod_Tool
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {

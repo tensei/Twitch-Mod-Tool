@@ -36,7 +36,8 @@ namespace Twitch_Mod_Tool.Utilities
 
             for (var i = 0; i < length; i++)
             {
-                var c = strippedNonLetters[i]; if (c != 'C' && i > 0 && strippedNonLetters[i - 1] == c)
+                var c = strippedNonLetters[i];
+                if (c != 'C' && i > 0 && strippedNonLetters[i - 1] == c)
                 {
                     continue;
                 }
@@ -148,14 +149,20 @@ namespace Twitch_Mod_Tool.Utilities
             }
         }
 
-        private static void ProcessIfCharacterIsY(char c, int i, int length, StringBuilder strippedNonLetters, StringBuilder metaphoneKey)
+        private static void ProcessIfCharacterIsY(char c, int i, int length, StringBuilder strippedNonLetters,
+            StringBuilder metaphoneKey)
         {
-            if (i + 1 < length && Vowels.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture))) { metaphoneKey.Append(c); }
+            if (i + 1 < length && Vowels.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture)))
+            {
+                metaphoneKey.Append(c);
+            }
         }
-        private static void ProcessIfCharacterIsT(int i, int length, StringBuilder strippedNonLetters, StringBuilder metaphoneKey)
+
+        private static void ProcessIfCharacterIsT(int i, int length, StringBuilder strippedNonLetters,
+            StringBuilder metaphoneKey)
         {
-            if (i > 0 && i + 2 < length && strippedNonLetters[i + 1] == 'I' &&
-(strippedNonLetters[i + 2] == 'O' && strippedNonLetters[i + 2] == 'A'))
+            if (i > 0 && i + 2 < length && strippedNonLetters[i + 1] == 'I' && strippedNonLetters[i + 2] == 'O' &&
+                strippedNonLetters[i + 2] == 'A')
             {
                 metaphoneKey.Append("X");
             }
@@ -166,12 +173,20 @@ namespace Twitch_Mod_Tool.Utilities
                     metaphoneKey.Append("0");
                 }
             }
-            else if (i + 2 < length && strippedNonLetters[i + 1] == 'C' && strippedNonLetters[i + 2] == 'H') { } else { metaphoneKey.Append("T"); }
+            else if (i + 2 < length && strippedNonLetters[i + 1] == 'C' && strippedNonLetters[i + 2] == 'H')
+            {
+            }
+            else
+            {
+                metaphoneKey.Append("T");
+            }
         }
-        private static void ProcessIfCharacterIsS(int i, int length, StringBuilder strippedNonLetters, StringBuilder metaphoneKey)
+
+        private static void ProcessIfCharacterIsS(int i, int length, StringBuilder strippedNonLetters,
+            StringBuilder metaphoneKey)
         {
             if (i > 0 && i + 2 < length && strippedNonLetters[i + 1] == 'I' &&
-(strippedNonLetters[i + 2] == 'O' || strippedNonLetters[i + 2] == 'A'))
+                (strippedNonLetters[i + 2] == 'O' || strippedNonLetters[i + 2] == 'A'))
             {
                 metaphoneKey.Append("X");
             }
@@ -185,10 +200,19 @@ namespace Twitch_Mod_Tool.Utilities
             }
         }
 
-        private static void ProcessIfCharacterIsPH(int i, int length, StringBuilder strippedNonLetters, StringBuilder metaphoneKey)
+        private static void ProcessIfCharacterIsPH(int i, int length, StringBuilder strippedNonLetters,
+            StringBuilder metaphoneKey)
         {
-            if (i + 1 < length && strippedNonLetters[i + 1] == 'H') { metaphoneKey.Append("F"); } else { metaphoneKey.Append("P"); }
+            if (i + 1 < length && strippedNonLetters[i + 1] == 'H')
+            {
+                metaphoneKey.Append("F");
+            }
+            else
+            {
+                metaphoneKey.Append("P");
+            }
         }
+
         private static void ProcessIfCharacterIsK(int i, StringBuilder strippedNonLetters, StringBuilder metaphoneKey)
         {
             if (i > 0 && strippedNonLetters[i - 1] != 'C')
@@ -205,7 +229,11 @@ namespace Twitch_Mod_Tool.Utilities
             StringBuilder metaphoneKey)
         {
             if (i + 1 == length ||
-                (i > 0 && Varson.IsMatch(strippedNonLetters[i - 1].ToString(CultureInfo.InvariantCulture)))) return;
+                i > 0 && Varson.IsMatch(strippedNonLetters[i - 1].ToString(CultureInfo.InvariantCulture)))
+            {
+                return;
+            }
+
             if (Vowels.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture)))
             {
                 metaphoneKey.Append("H");
@@ -220,9 +248,20 @@ namespace Twitch_Mod_Tool.Utilities
             {
                 return;
             }
+
             if (i + 1 < length && strippedNonLetters[i + 1] == 'N' ||
-                (i + 3 < length && strippedNonLetters[i + 1] == 'N' && strippedNonLetters[i + 2] == 'E' && strippedNonLetters[i + 3] == 'D')) { return; }
-            if (i > 0 && i + 1 < length && strippedNonLetters[i - 1] == 'D' && Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture))) { return; }
+                i + 3 < length && strippedNonLetters[i + 1] == 'N' && strippedNonLetters[i + 2] == 'E' &&
+                strippedNonLetters[i + 3] == 'D')
+            {
+                return;
+            }
+
+            if (i > 0 && i + 1 < length && strippedNonLetters[i - 1] == 'D' &&
+                Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture)))
+            {
+                return;
+            }
+
             if (i > 0 && strippedNonLetters[i - 1] == 'G')
             {
                 return;
@@ -239,20 +278,38 @@ namespace Twitch_Mod_Tool.Utilities
             }
         }
 
-        private static void ProcessIfCharacterIsD(int i, int length, StringBuilder strippedNonLetters, StringBuilder MetaphoneKey)
+        private static void ProcessIfCharacterIsD(int i, int length, StringBuilder strippedNonLetters,
+            StringBuilder MetaphoneKey)
         {
-            if (i + 2 < length && strippedNonLetters[i + 1] == 'G' && Frontv.IsMatch(strippedNonLetters[i + 2].ToString(CultureInfo.InvariantCulture))) { MetaphoneKey.Append("J"); } else { MetaphoneKey.Append("T"); }
+            if (i + 2 < length && strippedNonLetters[i + 1] == 'G' &&
+                Frontv.IsMatch(strippedNonLetters[i + 2].ToString(CultureInfo.InvariantCulture)))
+            {
+                MetaphoneKey.Append("J");
+            }
+            else
+            {
+                MetaphoneKey.Append("T");
+            }
         }
-        private static void ProcessIfCharacterIsC(int i, StringBuilder strippedNonLetters, int length, StringBuilder MetaphoneKey)
+
+        private static void ProcessIfCharacterIsC(int i, StringBuilder strippedNonLetters, int length,
+            StringBuilder MetaphoneKey)
         {
             if (i > 0 && strippedNonLetters[i - 1] == 'S' && i + 1 < length &&
-Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture))) return;
+                Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture)))
+            {
+                return;
+            }
+
             if (i + 2 < length && strippedNonLetters.ToString().Substring(i, 3) == "CIA")
             {
                 MetaphoneKey.Append("X");
             }
 
-            else if (i + 1 < length && Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture))) { MetaphoneKey.Append("S"); }
+            else if (i + 1 < length && Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture)))
+            {
+                MetaphoneKey.Append("S");
+            }
             else if (i > 0 && i + 1 < length && strippedNonLetters[i - 1] == 'S' && strippedNonLetters[i + 1] == 'H')
             {
                 MetaphoneKey.Append("K");
@@ -276,7 +333,8 @@ Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture))
             }
         }
 
-        private static void ProcessIfCharacterIsB(int i, int length, StringBuilder strippedNonLetters, StringBuilder metaphoneKey, char c)
+        private static void ProcessIfCharacterIsB(int i, int length, StringBuilder strippedNonLetters,
+            StringBuilder metaphoneKey, char c)
         {
             try
             {
@@ -289,6 +347,7 @@ Frontv.IsMatch(strippedNonLetters[i + 1].ToString(CultureInfo.InvariantCulture))
             {
                 return;
             }
+
             metaphoneKey.Append(c);
         }
     }

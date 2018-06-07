@@ -203,7 +203,10 @@
       <Version>2.1.3</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="costura32\e_sqlite3.dll" />
+    <Content Include="costura64\e_sqlite3.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>

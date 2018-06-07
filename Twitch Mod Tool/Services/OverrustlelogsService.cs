@@ -8,8 +8,9 @@ namespace Twitch_Mod_Tool.Services
     public class OverrustlelogsService
     {
         private readonly HttpClient _client;
-        private readonly string _urlBase = "https://overrustlelogs.net";
         private readonly string _urlApiBase = "https://overrustlelogs.net/api/v1";
+        private readonly string _urlBase = "https://overrustlelogs.net";
+
         public OverrustlelogsService()
         {
             _client = new HttpClient();
@@ -23,6 +24,7 @@ namespace Twitch_Mod_Tool.Services
             {
                 return await response.Content.ReadAsStringAsync();
             }
+
             return null;
         }
 

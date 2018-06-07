@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Twitch_Mod_Tool.Models;
 
@@ -11,15 +7,15 @@ namespace Twitch_Mod_Tool.Utilities
 {
     public class SettingsLoader
     {
-        private TwitchSettings _twitchSettings;
         private readonly string _settingsFile = "settings.json";
+        private readonly TwitchSettings _twitchSettings;
 
         public SettingsLoader(TwitchSettings twitchSettings)
         {
             _twitchSettings = twitchSettings;
         }
 
-        private void _twitchSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _twitchSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var s = JsonConvert.SerializeObject(_twitchSettings, Formatting.Indented);
             File.WriteAllText(_settingsFile, s);

@@ -1,10 +1,11 @@
-﻿using Twitch_Mod_Tool.Services;
+﻿using System.ComponentModel;
+using Twitch_Mod_Tool.Services;
 using Twitch_Mod_Tool.ViewModels;
 
 namespace Twitch_Mod_Tool
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
@@ -19,7 +20,7 @@ namespace Twitch_Mod_Tool
             InitializeComponent();
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             _twitchService.Stop();
         }

@@ -28,7 +28,8 @@ namespace Twitch_Mod_Tool.ViewModels
             _execute(parameter);
         }
 
-        public event EventHandler CanExecuteChanged {
+        public event EventHandler CanExecuteChanged
+        {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
         }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using TwitchLib.Client;
-using TwitchLib.Client.Enums;
 using TwitchLib.Client.Events;
-using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Models;
 using Twitch_Mod_Tool.Models;
 
@@ -24,6 +17,7 @@ namespace Twitch_Mod_Tool.Services
         }
 
         public TwitchClient Client { get; set; }
+
         public void Start()
         {
             var credentials = new ConnectionCredentials(_twitchSettings.Username, _twitchSettings.Oauth);

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
@@ -14,10 +11,10 @@ using Twitch_Mod_Tool.Services;
 
 namespace Twitch_Mod_Tool.ViewModels
 {
-    public class CommandsViewModel: INotifyPropertyChanged
+    public class CommandsViewModel : INotifyPropertyChanged
     {
-        private readonly TwitchService _twitchService;
         private readonly ToolContext _context;
+        private readonly TwitchService _twitchService;
 
         public CommandsViewModel(TwitchService twitchService, ToolContext context)
         {
@@ -31,6 +28,18 @@ namespace Twitch_Mod_Tool.ViewModels
 
         public ICommand WhitelistWordCommand =>
             new ActionCommand(async () => await WhitelistWord());
+
+        public ICommand SendCommand =>
+            new ActionCommand(cmnd => SendCustomCommand((CustomCommand) cmnd));
+
+        public ICommand AddNewCustomCommand =>
+            new ActionCommand(async () => await AddNewCommand());
+
+        public ICommand DeleteCustomCommand =>
+            new ActionCommand(async cmnd => await DeleteCommand((CustomCommand) cmnd));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private async Task WhitelistWord()
         {
             WordToWhitelist = WordToWhitelist.Trim();
@@ -38,6 +47,7 @@ namespace Twitch_Mod_Tool.ViewModels
             {
                 return;
             }
+
             var wluser = new WhitelistWord
             {
                 Word = WordToWhitelist
@@ -52,23 +62,22 @@ namespace Twitch_Mod_Tool.ViewModels
             WordToWhitelist = string.Empty;
         }
 
-        public ICommand SendCommand =>
-            new ActionCommand(cmnd => SendCustomCommand((CustomCommand)cmnd));
-        private void SendCustomCommand(CustomCommand customCommand) => _twitchService.Client.SendMessage(customCommand.Channel, customCommand.Message);
+        private void SendCustomCommand(CustomCommand customCommand)
+        {
+            _twitchService.Client.SendMessage(customCommand.Channel, customCommand.Message);
+        }
 
-        public ICommand AddNewCustomCommand =>
-            new ActionCommand(async () => await AddNewCommand());
         private async Task AddNewCommand()
         {
             var cmnd = new CustomCommand();
             var dialog = new CustomCommandAddDialog
             {
-                DataContext= cmnd
+                DataContext = cmnd
             };
             var result = (bool) await DialogHost.Show(dialog);
-            if (result && 
-                !string.IsNullOrWhiteSpace(cmnd.Name) && 
-                !string.IsNullOrWhiteSpace(cmnd.Channel) && 
+            if (result &&
+                !string.IsNullOrWhiteSpace(cmnd.Name) &&
+                !string.IsNullOrWhiteSpace(cmnd.Channel) &&
                 !string.IsNullOrWhiteSpace(cmnd.Message))
             {
                 await _context.CustomCommands.AddAsync(cmnd);
@@ -77,15 +86,11 @@ namespace Twitch_Mod_Tool.ViewModels
             }
         }
 
-        public ICommand DeleteCustomCommand =>
-            new ActionCommand(async cmnd => await DeleteCommand((CustomCommand) cmnd));
         private async Task DeleteCommand(CustomCommand customCommand)
         {
             _context.CustomCommands.Remove(customCommand);
             await _context.SaveChangesAsync();
             CustomCommands.Remove(customCommand);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
